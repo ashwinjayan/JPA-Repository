@@ -1,5 +1,6 @@
 package com.courseapi.services;
 
+import com.courseapi.exception.ResourceNotFoundException;
 import com.courseapi.models.Topic;
 import com.courseapi.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class TopicService {
     }
 
     public Topic getTopicById(long id) {
-        return topicRepository.findById(id).get();
+        return topicRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id));
     }
 
     public List<Topic> addTopic(Topic topic) {
@@ -33,11 +35,15 @@ public class TopicService {
     }
 
     public Topic updateTopic(long id, Topic topic) {
+        topicRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id));
         topicRepository.save(topic);
         return getTopicById(id);
     }
 
     public List<Topic> deleteTopic(long id) {
+        topicRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + id));
         topicRepository.deleteById(id);
         return getAllTopics();
     }
