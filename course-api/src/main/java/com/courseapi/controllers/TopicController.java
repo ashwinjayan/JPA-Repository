@@ -16,8 +16,9 @@ public class TopicController {
 
     @RequestMapping("/topics")
     public List<Topic> getAllTopics() {
-        throw new ApiRequestException("Cannot get all topics");
-        //return topicService.getAllTopics();
+        //throwing a custom exception in spring cloud to return custom responses to the client side
+        //throw new ApiRequestException("Cannot get all topics");
+        return topicService.getAllTopics();
     }
 
     @RequestMapping("/topics/{name}")
