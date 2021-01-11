@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CourseController {
     @Autowired
     private CourseService courseService;
@@ -18,12 +19,12 @@ public class CourseController {
     @Autowired
     private TopicService topicService;
 
-    @RequestMapping("/topics/{topicId}/courses")
+    @GetMapping("/topics/{topicId}/courses")
     public List<Course> getAllCourses(@PathVariable long topicId) {
         return courseService.getAllCourses(topicId);
     }
 
-    @RequestMapping("/topics/{topicId}/courses/{name}")
+    @GetMapping("/topics/{topicId}/courses/{name}")
     public Course getCourseByName(@PathVariable String name) {
         return courseService.getCourseByName(name);
     }

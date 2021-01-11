@@ -3,26 +3,33 @@ package com.courseapi.controllers;
 import com.courseapi.exception.ApiRequestException;
 import com.courseapi.models.Topic;
 import com.courseapi.services.TopicService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class TopicController {
 
     @Autowired
     private TopicService topicService;
 
-    @RequestMapping("/topics")
+    @RequestMapping(value = "/topics", method = RequestMethod.GET)
     public List<Topic> getAllTopics() {
         //throwing a custom exception in spring cloud to return custom responses to the client side
         //throw new ApiRequestException("Cannot get all topics");
         return topicService.getAllTopics();
     }
 
-    @RequestMapping("/topics/{name}")
-    public Topic getTopicByName(@PathVariable String name) {
+    @RequestMapping(value = "/topics/{name}", method = RequestMethod.GET)
+    @ApiOperation(value = "Finds the topics by name",
+            notes = "Provide a name to look up specific topic from DB",
+            response = Topic.class)
+    public Topic getTopicByName(@ApiParam(value = "Name value for the topic you need to retrieve", required = true)
+                                    @PathVariable String name) {
         return topicService.getTopicByName(name);
     }
 
